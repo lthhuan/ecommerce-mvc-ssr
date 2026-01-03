@@ -48,3 +48,14 @@
   border-bottom: 1px solid #515151;
 }
 /* End Sider */
+
+/* Img preview */
+.image-preview {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+/* End Img preview */

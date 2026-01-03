@@ -1,5 +1,4 @@
 const buttonStatus = document.querySelectorAll("[button-status]")
-console.log( buttonStatus)
 if(buttonStatus.length > 0 ){
     let url = new URL(window.location.href)    
     buttonStatus.forEach(button => {
@@ -51,7 +50,7 @@ if(buttonPagination){
     })
     }
 
-
+//Alert
 const showAlert = document.querySelector("[show-alert]");
 if (showAlert) {
     const time = parseInt(showAlert.getAttribute("data-time"));
@@ -66,3 +65,21 @@ if (showAlert) {
     }, time);
 }
 
+//Upload img
+const uploadImage = document.querySelector("[upload-image]")
+console.log(uploadImage)
+if(uploadImage) {
+    const uploadImageInput = document.querySelector("[upload-image-input]")
+    const uploadImagePreview = document.querySelector("[upload-image-preview]")
+
+
+
+    uploadImageInput.addEventListener("change", (e) => {
+
+
+        const file = uploadImageInput.files[0]
+        if(file){
+            uploadImagePreview.src = URL.createObjectURL(file)
+        }
+    })
+}
