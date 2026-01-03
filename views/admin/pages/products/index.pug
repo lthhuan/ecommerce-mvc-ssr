@@ -129,10 +129,13 @@ block main
                                             data-id=item.id
                                             data-status="inactive"
                                         ) Dừng hoạt động
-                                td.text-center
-                                    button.btn.btn-warning.btn-sm.me-1
-                                        i.bi.bi-pencil-square
+                                td(class="text-center")
+                                    a(
+                                        href=`${prefixAdmin}/products/edit/${item.id}`
+                                        class="btn btn-warning btn-sm me-1"
+                                    )
                                         |  Sửa
+
                                     button(
                                         class="btn btn-danger btn-sm ml-1"
                                         class="bi bi-trash"
