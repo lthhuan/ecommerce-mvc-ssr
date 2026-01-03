@@ -2,16 +2,12 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
 
 block main
-
-    - if (messages.success)
-        .message.info
-            div(
-                class="alert alert-success"
-                show-alert
-                data-time="5000"
-            ) #{messages.success}
+    +alert-success(5000)
+    +alert-error(5000)
+    
 
     .container-fluid
         // ===== HEADER =====

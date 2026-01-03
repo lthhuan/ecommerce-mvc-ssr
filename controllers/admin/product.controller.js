@@ -63,9 +63,16 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status
     const id = req.params.id
-    await Product.updateOne({ _id: id }, { status: status })
-    req.flash("success", "Cập nhật trạng thái thành công!")
-    res.redirect(req.get('Referrer') || '/');
+
+    try {
+        await Product.updateOne({ _id: id }, { status: status })
+        req.flash("success", "Cập nhật trạng thái thành công!")
+    } catch (error) {
+        res.redirect(req.get('Referrer') || '/');
+    }
+    
+    
+    
 }
 
 // [PATCH]  admin/products/change-status/:status/:id
@@ -111,10 +118,19 @@ module.exports.changeMulti = async (req, res) => {
 // [PATCH]  admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id
-    await Product.updateOne({ _id: id }, {
+
+    try {
+         await Product.updateOne({ _id: id }, {
         deleted: true,
         deletedAt: new Date()
+        
     })
+    req.flash("success", "Xóa sản phẩm thành công")
+        
+    } catch (error) {
+        req.flash("error", "Xóa sản phẩm thất bại")
+    }
+   
     res.redirect(req.get('Referrer') || '/');
 }
 
@@ -138,7 +154,7 @@ module.exports.createPost = async (req, res) => {
     if (req.body.position == "") {
         const countProducts = await Product.countDocuments();
         req.body.position = countProducts + 1
-        console.log(countProducts)
+      
     } else {
         req.body.position = parseInt(req.body.position)
     }
@@ -147,12 +163,15 @@ module.exports.createPost = async (req, res) => {
         req.body.thumbnail = `/uploads/${req.file.filename}`
     }
 
+    try {
+        const product = new Product(req.body)
+        await product.save();
+        req.flash("success", "Tạo sản phẩm thành công")
+        
+    } catch (error) {
+        req.flash("error", "Tạo sản phẩm thất bại")
+    }
 
-
-
-    const product = new Product(req.body)
-    await product.save();
-    console.log(req.body)
     res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
 

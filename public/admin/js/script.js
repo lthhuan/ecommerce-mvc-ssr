@@ -67,7 +67,6 @@ if (showAlert) {
 
 //Upload img
 const uploadImage = document.querySelector("[upload-image]")
-console.log(uploadImage)
 if(uploadImage) {
     const uploadImageInput = document.querySelector("[upload-image-input]")
     const uploadImagePreview = document.querySelector("[upload-image-preview]")
@@ -82,4 +81,17 @@ if(uploadImage) {
             uploadImagePreview.src = URL.createObjectURL(file)
         }
     })
+
+    const uploadImageRemove = document.querySelector("[upload-image-remove]")
+
+    console.log(uploadImageRemove)
+   
+    if(uploadImageRemove){
+        uploadImageRemove.addEventListener("click", () =>{
+            uploadImageInput.value=""
+            uploadImagePreview.src=""
+        })
+    }
+   
 }
+
