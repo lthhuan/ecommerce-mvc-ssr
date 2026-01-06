@@ -5,162 +5,163 @@ include ../../mixins/pagination.pug
 include ../../mixins/alert.pug
 
 block main
-    +alert-success(5000)
-    +alert-error(5000)
-    
+  +alert-success(5000)
+  +alert-error(5000)
 
+  .container-fluid
+    // ===== PAGE HEADER =====
     .container-fluid
-        // ===== HEADER =====
         .d-flex.justify-content-between.align-items-center.mb-3
             h1.mb-0 Danh sách sản phẩm
+            a.btn.btn-success(
+            href=`${prefixAdmin}/products/create`
+            ) + Thêm mới sản phẩm
 
-        // ===== FILTER & SEARCH =====
-        .card.mb-3
-            .card-header
-                strong Bộ lọc & Tìm kiếm
-            .card-body
-                .row.align-items-center
-                    .col-md-6.mb-2.mb-md-0
-                        +filter-status(filterStatus)
-                    .col-md-6
-                        +search(search)
+    // ===== FILTER & SEARCH =====
+    .card.mb-3
+        .card-header
+            strong Bộ lọc & Tìm kiếm
 
-        .card.mb-3
-            .card-header.d-flex.justify-content-between.align-items-center
-                strong Thay đổi nhiều sản phẩm
-                a.btn.btn-outline-success(
-                    href=`${prefixAdmin}/products/create`
-                ) + Thêm mới
+        .card-body
+            .row.align-items-center
+            .col-md-6
+                +filter-status(filterStatus)
 
-            .card-body
-                form(
-                    action=`${prefixAdmin}/products/change-multi?_method=PATCH`
-                    method="POST"
+            .col-md-6
+                +search(search)
+
+
+
+    .card.mb-3
+        .card-header
+            strong Thay đổi nhiều sản phẩm
+
+        .card-body
+            form(
+                action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+                method="POST"
+                form-change-multi
+            )
+                .input-group(style="max-width: 600px;") 
+                select.form-select(name="type")
+                    option(value="active") Hoạt động
+                    option(value="inactive") Dừng hoạt động
+                    option(value="delete") Xóa sản phẩm
+                    option(value="change-position") Thay đổi vị trí
+
+                // Thêm class d-none để ẩn mặc định
+                input.form-control.d-none(
+                    type="text"
+                    name="ids"
+                    placeholder="Nhập ID, ví dụ: 1,2,3"
+                    value=""
                     form-change-multi
                 )
-                    .row.align-items-center
-                        .col-md-3.mb-2
-                            select.form-control(name="type")
-                                option(value="active") Hoạt động
-                                option(value="inactive") Dừng hoạt động
-                                option(value="delete") Xóa sản phẩm
-                                option(value="change-position") Thay đổi vị trí
-
-                        .col-md-5.mb-2.d-none
-                            input.form-control(
-                                type="text"
-                                name="ids"
-                                placeholder="Nhập ID, ví dụ: 1,2,3"
-                                form-change-multi
-                            )
-
-                        .col-md-2
-                            button.btn.btn-primary.w-100(type="submit") Áp dụng
+                
+                button.btn.btn-primary(type="submit") Áp dụng
 
 
-        // ===== TABLE =====
-        .card
-            .card-header
-                strong Danh sách sản phẩm
-            .card-body.p-0
-                table(
-                    class="table table-hover table-bordered table-sm mb-0"
-                    checkbox-multi
-                    )
- 
-                    thead.table-light
-                        tr.text-center
-                            th
-                                input(
-                                    type="checkbox" 
-                                    name="checkall"
-                                    
-                                    )
-                            th(style="width:60px") STT
-                            th(style="width:120px") Hình ảnh
-                            th Tiêu đề
-                            th(style="width:120px") Giá
-                            th(style="width:140px") Trạng thái
-                            th(style="width:160px") Trạng thái
-                            th(style="width:180px") Hành động
-                    tbody
-                        each item, index in products
-                            tr.align-middle
-                                td
-                                    input(
-                                        type="checkbox"
-                                        name="id"
-                                        value=item.id
-                                    )
-                                td.text-center #{index + 1}
-                                td.text-center
-                                    img(
-                                        src=item.thumbnail
-                                        alt=item.title
-                                        width="80"
-                                        class="img-thumbnail"
-                                    )
-                                td.text-center #{item.title}
-                                td.text-end #{item.price}$
-                                td.text-center 
-                                    input(
-                                        type="number"
-                                        value=item.position 
-                                        style="width: 60px"
-                                        min="1"
-                                        name="position"
-                                    )
-                                td.text-center
-                                    if item.status == "active"
-                                        a.badge.bg-success(
-                                            href="javascript:;"
-                                            button-change-status
-                                            data-id=item.id
-                                            data-status="active"
-                                        ) Hoạt động
-                                    else
-                                        a.badge.bg-danger(
-                                            href="javascript:;"
-                                            button-change-status
-                                            data-id=item.id
-                                            data-status="inactive"
-                                        ) Dừng hoạt động
-                                td(class="text-center")
-                                    a(
-                                        href=`${prefixAdmin}/products/edit/${item.id}`
-                                        class="btn btn-warning btn-sm me-1"
-                                    )
-                                        |  Sửa
+    // ===== TABLE LIST =====
+    .card
+      .card-header
+        strong Danh sách sản phẩm
 
-                                    button(
-                                        class="btn btn-danger btn-sm ml-1"
-                                        class="bi bi-trash"
-                                        button-delete
-                                        data-id=item.id 
-                                           ) 
-                                            
-                                        |  Xóa
-
-
-
-        // ===== PAGINATION =====
-        .mt-3
-            +pagination(pagination)
-
-        // ===== FORM CHANGE STATUS =====
-        form(
-            action=""
-            method="POST"
-            id="form-change-status"
-            data-path=`${prefixAdmin}/products/change-status`
+      .card-body.p-0
+        table.table.table-hover.table-bordered.table-sm.mb-0(
+          checkbox-multi
         )
+          thead.table-light
+            tr.text-center
+              th
+                input(type="checkbox" name="checkall")
+              th(style="width:60px") STT
+              th(style="width:120px") Hình ảnh
+              th Tiêu đề
+              th(style="width:120px") Giá
+              th(style="width:140px") Vị trí
+              th(style="width:160px") Trạng thái
+              th(style="width:180px") Hành động
 
-        // ===== FORM DELETE =====
-        form(
-            action=""
-            method="POST"
-            id="form-delete-item"
-            data-path=`${prefixAdmin}/products/delete`
-        )
+          tbody
+            each item, index in products
+              tr.align-middle
+                td.text-center
+                  input(
+                    type="checkbox"
+                    name="id"
+                    value=item.id
+                  )
 
-    script(src="/admin/js/product.js")
+                td.text-center #{index + 1}
+
+                td.text-center
+                  img(
+                    src=item.thumbnail
+                    alt=item.title
+                    width="80"
+                    class="img-thumbnail"
+                  )
+
+                td.text-center #{item.title}
+
+                td.text-end #{item.price}$
+
+                td.text-center
+                  input(
+                    type="number"
+                    value=item.position
+                    style="width: 60px"
+                    min="1"
+                    name="position"
+                  )
+
+                td.text-center
+                  if item.status == "active"
+                    a.badge.bg-success(
+                      href="javascript:;"
+                      button-change-status
+                      data-id=item.id
+                      data-status="active"
+                    ) Hoạt động
+                  else
+                    a.badge.bg-danger(
+                      href="javascript:;"
+                      button-change-status
+                      data-id=item.id
+                      data-status="inactive"
+                    ) Dừng hoạt động
+
+                td.text-center
+                  a.btn.btn-secondary.btn-sm.me-1(
+                    href=`${prefixAdmin}/products/detail/${item.id}`
+                  ) Chi tiết
+
+                  a.btn.btn-warning.btn-sm.me-1(
+                    href=`${prefixAdmin}/products/edit/${item.id}`
+                  ) Sửa
+
+                  button.btn.btn-danger.btn-sm.ml-1(
+                    button-delete
+                    data-id=item.id
+                  ) Xóa
+
+    // ===== PAGINATION =====
+    .mt-3
+      +pagination(pagination)
+
+    // ===== HIDDEN FORMS =====
+    form(
+      action=""
+      method="POST"
+      id="form-change-status"
+      data-path=`${prefixAdmin}/products/change-status`
+    )
+
+    form(
+      action=""
+      method="POST"
+      id="form-delete-item"
+      data-path=`${prefixAdmin}/products/delete`
+    )
+
+  script(src="/admin/js/product.js")
