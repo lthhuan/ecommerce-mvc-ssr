@@ -26,4 +26,8 @@ router.patch(
     controller.editPatch);
 
 
+
+// router.get('/trash', controller.trash);   
+
+
 module.exports = router;
