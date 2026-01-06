@@ -1,0 +1,86 @@
+extends ../../layouts/default.pug
+
+block main 
+  .inner-main.pb-5(style="min-height: calc(100vh - 200px);")
+    .container.my-5
+      .row
+        //- Bên trái: Hình ảnh sản phẩm
+        .col-md-6.mb-4
+          if product.thumbnail
+            .inner-image.text-center.border.rounded.p-2.bg-white.shadow-sm
+              img(
+                src=product.thumbnail
+                alt=product.title
+                style="max-width: 100%; height: 450px; object-fit: contain; border-radius: 8px;"
+              )
+          else 
+            .text-center.p-5.bg-light.border.rounded Không có hình ảnh
+
+        //- Bên phải: Thông tin chi tiết
+        .col-md-6
+          .product-details.ps-md-4
+            if product.title
+              h1.mb-3.fw-bold.text-dark #{product.title}
+
+            //- Badge trạng thái & vị trí
+            .mb-3
+              if product.stock > 0
+                span.badge.bg-success.me-2 
+                  i.bi.bi-check-lg.me-1
+                  | Còn hàng
+              else
+                span.badge.bg-secondary.me-2 
+                  i.bi.bi-x-lg.me-1
+                  | Hết hàng
+              if product.position
+                span.badge.bg-info.text-dark Vị trí: ##{product.position}
+
+            hr
+
+            //- Khu vực giá (Đã đổi sang màu xanh dương theo CSS mới)
+            .product-price.p-3.mb-4
+              if product.discountPercentage
+                .d-flex.align-items-center
+                  span.text-muted.text-decoration-line-through.fs-5.me-3 #{product.price}$
+                  span.h2.text-primary.fw-bold.mb-0
+                    - const newPrice = (product.price * (1 - product.discountPercentage/100)).toFixed(2)
+                    | #{newPrice}$
+                  span.badge.bg-info.text-dark.ms-3 -#{product.discountPercentage}%
+              else 
+                span.h2.text-primary.fw-bold #{product.price}$
+
+            //- Thông số bổ sung
+            .mb-4
+              p.mb-1
+                i.bi.bi-box-seam.text-primary.me-2
+                | Kho còn lại: 
+                span.fw-bold #{product.stock}
+              p.text-muted.small 
+                i.bi.bi-shield-check.text-primary.me-2
+                | Cam kết hàng chính hãng 100%
+
+            //- Chọn số lượng
+            .mb-4
+              label.form-label.fw-bold Số lượng:
+              input.form-control(type="number" name="quantity" value="1" min="1" max=product.stock style="width: 100px;")
+
+            //- Nút bấm (Đã đổi sang tông Blue)
+            .row.g-2
+              .col-sm-6
+                button.btn.btn-outline-primary.btn-lg.w-100(type="button")
+                  i.bi.bi-cart-plus.me-2
+                  | Thêm vào giỏ
+              .col-sm-6
+                button.btn.btn-primary.btn-lg.w-100(type="button") Mua ngay
+
+      //- Phần mô tả bên dưới
+      if product.description
+        .row.mt-5
+          .col-12
+            .card.shadow-sm.border-0
+              .card-header.bg-primary.text-white.py-3
+                h5.mb-0 
+                  i.bi.bi-file-text.me-2
+                  | Mô tả chi tiết sản phẩm
+              .card-body.p-4
+                .card-text.lh-lg !{product.description}

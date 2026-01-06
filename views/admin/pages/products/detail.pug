@@ -48,6 +48,14 @@ block main
         .mb-4
             | Mô tả:
             b #{product.description}
+    a.btn.btn-warning.btn-sm.me-1(
+        href=`${prefixAdmin}/products/edit/${product.id}`
+
+        ) Chỉnh sửa sản phẩm
+    a.btn.btn-success.btn-sm.me-1(
+        href=`${prefixAdmin}/products/`
+
+        ) Quay lại
 
     
 

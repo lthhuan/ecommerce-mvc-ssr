@@ -15,7 +15,7 @@ module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query)
 
     let find = {
-        deleted: false
+        deleted: { $ne: true }
     }
 
     if (req.query.status) {

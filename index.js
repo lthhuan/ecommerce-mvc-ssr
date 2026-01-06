@@ -3,6 +3,7 @@ var methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const path = require("path");
 
 
 var flash = require('express-flash')
@@ -23,7 +24,7 @@ app.use(methodOverride('_method'))
 
 app.use(bodyParser.urlencoded())
 
-app.set("views", "./views");
+app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'pug');
 
 
@@ -37,7 +38,7 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 const route = require("./routes/client/index.route")
 const routeAdmin = require("./routes/admin/index.route")
 
-app.use(express.static('public'))
+app.use(express.static(__dirname + "/public"));
 
 
 route(app)

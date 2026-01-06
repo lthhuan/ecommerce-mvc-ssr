@@ -8,10 +8,13 @@ body {
 /* ===== HEADER ===== */
 .header {
   background: #1e40af;
-  padding: 12px 0;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+header.header .header-right span {
+  color: #ffffff !important;
 }
 
 .header .inner-logo a {

@@ -1,8 +1,27 @@
+/* Biến màu chủ đạo - Dễ dàng thay đổi sau này */
+:root {
+  --blue-main: #007bff;
+  --blue-dark: #0056b3;
+  --blue-light: #e7f1ff;
+  --gray-light: #f8f9fa;
+}
+
+/* Layout cơ bản để Footer luôn sát đáy */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Chiều cao tối thiểu là toàn màn hình */
+  margin: 0;
+}
+
 /* Header */
 .header {
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
+  background-color: #fff;
 }
+
+
 
 .header .inner-logo img {
   max-height: 50px;
@@ -22,14 +41,27 @@
 .header .inner-menu > ul > li {
   margin-left: 20px;
 }
+
+.header .inner-menu > ul > li a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.header .inner-menu > ul > li a:hover {
+  color: var(--blue-main);
+}
 /* End Header */
 
-/* Footer */
+/* Footer - Sửa lỗi khoảng cách */
 .footer {
-  background: #333;
+  margin-top: auto; /* Tự động đẩy xuống dưới cùng */
+  background: #212529;
   color: #fff;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
+  font-size: 14px;
 }
 /* End Footer */
 
@@ -42,83 +74,120 @@
   margin-bottom: 0;
   font-size: 28px;
   font-weight: 600;
-  color: green;
+  color: var(--blue-main); /* Chuyển từ xanh lá sang xanh dương */
 }
 /* End box-head */
 
-
 /* product-item */
 .product-item {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #eee;
+  border-radius: 12px;
   overflow: hidden;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.product-item:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
 }
 
 .product-item .inner-image {
   width: 100%;
   aspect-ratio: 4/3;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
 }
 
 .product-item .inner-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-.product-item .inner-content {
+  object-fit: contain; /* Đổi sang contain để không mất góc sản phẩm */
+  transition: transform 0.5s ease;
   padding: 10px;
 }
 
+.product-item:hover .inner-image img {
+  transform: scale(1.1);
+}
+
+.product-item .inner-content {
+  padding: 15px;
+}
+
 .product-item .inner-content .inner-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.product-item .inner-content .inner-title a {
+  color: #333;
+  text-decoration: none;
+}
+
+.product-item .inner-content .inner-title a:hover {
+  color: var(--blue-main);
 }
 
 .product-item .inner-content .inner-price-new {
   font-size: 18px;
-  font-weight: 600;
-  color: green;
+  font-weight: 700;
+  color: var(--blue-main); /* Xanh dương */
 }
 
 .product-item .inner-content .inner-price-old {
-  font-size: 18px;
-  font-weight: 600;
-  color: red;
+  font-size: 14px;
+  font-weight: 400;
+  color: #888;
   text-decoration: line-through;
+  margin-left: 5px;
 }
 
 .product-item .inner-content .inner-discount {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: white;
-  background: red;
+  background: #ff4d4f;
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 /* End product-item */
 
-/* Show Alert */
+/* Page Detail Styles */
+.product-price {
+  border-left: 4px solid var(--blue-main); /* Vạch xanh dương */
+  background-color: var(--gray-light);
+  padding: 15px;
+  border-radius: 0 8px 8px 0;
+}
+
+.btn-primary {
+  background-color: var(--blue-main) !important;
+  border-color: var(--blue-main) !important;
+}
+
+.btn-outline-primary {
+  color: var(--blue-main) !important;
+  border-color: var(--blue-main) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--blue-main) !important;
+  color: #fff !important;
+}
+
+/* Alert */
 [show-alert] {
-    position: fixed;
-    top: 70px;
-    right: 15px;
-    z-index: 9999;
+  position: fixed;
+  top: 80px;
+  right: 15px;
+  z-index: 9999;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
-[show-alert].alert-hidden {
-    animation: alert-hidden 0.5s forwards;
-}
-
-@keyframes alert-hidden {
-    from {
-        right: 15px;
-        opacity: 1;
-    }
-    to {
-        right: -100%;
-        opacity: 0;
-    }
-}
-/* End Show Alert */
+/* End Alert */
