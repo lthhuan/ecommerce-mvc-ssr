@@ -95,3 +95,44 @@ if(uploadImage) {
    
 }
 
+// Sort
+const sort = document.querySelector("[sort]")
+if(sort){
+    let url = new URL(window.location.href)
+    const sortSelect = sort.querySelector("[sort-select]")
+    const clearSort = sort.querySelector("[sort-clear]")
+
+    sortSelect.addEventListener("change", (e) => {
+        const value = e.target.value
+        const [sortKey, sortValue]=value.split("-")
+        console.log(sortKey)
+        console.log(sortValue)
+        url.searchParams.set("sortKey", sortKey)
+        url.searchParams.set("sortValue", sortValue)
+
+        window.location.href = url.href
+
+    })
+    // Delete sort
+    clearSort.addEventListener("click", () => {
+        url.searchParams.delete("sortKey")
+        url.searchParams.delete("sortValue")
+        window.location.href = url.href
+
+    })
+
+    //Selected
+    const sortKey = url.searchParams.get("sortKey")
+    const sortValue = url.searchParams.get("sortValue")
+
+    if(sortKey && sortValue){
+        const stringSort = `${sortKey}-${sortValue}`
+
+        const optionSelected = sortSelect.querySelector(`option[value='${stringSort}']`)
+
+        optionSelected.selected = true
+    }
+}
+
+
+

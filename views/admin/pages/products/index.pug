@@ -3,6 +3,7 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
 
 block main
   +alert-success(5000)
@@ -29,7 +30,13 @@ block main
 
             .col-md-6
                 +search(search)
-
+    .card.mb-3
+      .card-header 
+        Strong  Sắp xếp
+      .card-body
+          .row
+              .col-4
+                  +sort(sort)
 
 
     .card.mb-3
@@ -59,6 +66,8 @@ block main
                 )
                 
                 button.btn.btn-primary(type="submit") Áp dụng
+    
+
 
 
     // ===== TABLE LIST =====

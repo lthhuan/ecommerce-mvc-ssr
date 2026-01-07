@@ -19,6 +19,9 @@ databse.connect();
 const app = express()
 const port = process.env.PORT
 
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+
 app.use(methodOverride('_method'))
 
 

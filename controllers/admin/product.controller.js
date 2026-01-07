@@ -42,8 +42,18 @@ module.exports.index = async (req, res) => {
 
     )
 
+    // Sort 
+
+    let sort = {}
+
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue
+
+    } else {
+        sort.position = "desc"
+    }
     const products = await Product.find(find)
-        .sort({ position: 'desc' })
+        .sort(sort)
         .limit(objectPagination.limitItem)
         .skip(objectPagination.skip)
 
@@ -71,8 +81,8 @@ module.exports.changeStatus = async (req, res) => {
         req.flash("error", "Cập nhật trạng thái thất bại!")
     }
     res.redirect(req.get('Referrer') || '/');
-    
-    
+
+
 }
 
 // [PATCH]  admin/products/change-status/:status/:id
@@ -120,17 +130,17 @@ module.exports.deleteItem = async (req, res) => {
     const id = req.params.id
 
     try {
-         await Product.updateOne({ _id: id }, {
-        deleted: true,
-        deletedAt: new Date()
-        
-    })
-    req.flash("success", "Xóa sản phẩm thành công")
-        
+        await Product.updateOne({ _id: id }, {
+            deleted: true,
+            deletedAt: new Date()
+
+        })
+        req.flash("success", "Xóa sản phẩm thành công")
+
     } catch (error) {
         req.flash("error", "Xóa sản phẩm thất bại")
     }
-   
+
     res.redirect(req.get('Referrer') || '/');
 }
 
@@ -154,7 +164,7 @@ module.exports.createPost = async (req, res) => {
     if (req.body.position == "") {
         const countProducts = await Product.countDocuments();
         req.body.position = countProducts + 1
-      
+
     } else {
         req.body.position = parseInt(req.body.position)
     }
@@ -165,7 +175,7 @@ module.exports.createPost = async (req, res) => {
         const product = new Product(req.body)
         await product.save();
         req.flash("success", "Tạo sản phẩm thành công")
-        
+
     } catch (error) {
         req.flash("error", "Tạo sản phẩm thất bại")
     }
@@ -211,15 +221,15 @@ module.exports.editPatch = async (req, res) => {
     }
 
     try {
-        await Product.updateOne({_id: id}, req.body)
-        req.flash("success","Cập nhật sản phẩm thành công!")
+        await Product.updateOne({ _id: id }, req.body)
+        req.flash("success", "Cập nhật sản phẩm thành công!")
 
-        
+
     } catch (error) {
-         req.flash("error","Cập nhật sản phẩm thất bại!")
+        req.flash("error", "Cập nhật sản phẩm thất bại!")
     }
 
-   res.redirect(req.get('Referrer') || '/')
+    res.redirect(req.get('Referrer') || '/')
 
 }
 
@@ -245,3 +255,5 @@ module.exports.detail = async (req, res) => {
     }
 
 }
+
+
