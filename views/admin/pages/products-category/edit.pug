@@ -6,12 +6,12 @@ block main
     +alert-success(5000)
     +alert-error(5000)
     
-    h1(class="mb-4") Thêm mới sản phẩm
+    h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
 
     form(
-        action=`${prefixAdmin}/products/create`
+        action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
         method="POST"
-        id="form-create-product"
+        id="form-edit-product"
         enctype="multipart/form-data"
     )
         // ===== TIÊU ĐỀ =====
@@ -23,18 +23,22 @@ block main
                 name="title"
                 class="form-control"
                 required
+                value= data.title
             )
+        // ===== DANH MỤC CHA =====
         div(class="mb-3")
-            label(class="form-label" for="product_category_id") Danh mục cha
+            label(class="form-label" for="parent_id") Danh mục cha
             select(
-                name="product_category_id"
-                id="product_category_id"
+                name="parent_id"
+                id="parent_id"
                 class="form-control"
             )
                 option(value="") -- Chọn danh mục cha --
 
-                if(category)
-                    +select-tree(category)
+                if(records)
+                    +select-tree(records, 1, data.parent_id)
+
+    
 
         // ===== MÔ TẢ =====
         div(class="mb-3")
@@ -44,44 +48,7 @@ block main
                 name="description"
                 rows="4"
                 class="form-control"
-            )
-
-        // ===== GIÁ =====
-        div(class="mb-3")
-            label(class="form-label" for="price") Giá
-            input(
-                type="number"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-                class="form-control"
-            )
-
-        // ===== GIẢM GIÁ =====
-        div(class="mb-3")
-            label(class="form-label" for="discount") % Giảm giá
-            input(
-                type="number"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-                max="100"
-                class="form-control"
-            )
-
-        // ===== SỐ LƯỢNG =====
-        div(class="mb-3")
-            label(class="form-label" for="stock") Số lượng
-            input(
-                type="number"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
-                class="form-control"
-            )
+            ) #{data.description}
 
         // ===== ẢNH (URL) =====
         div(
@@ -102,7 +69,7 @@ block main
             div(class="mt-2 d-flex align-items-center gap-2")
                 img(
                     class="image-preview"
-                    src=""
+                    src=data.thumbnail
                     upload-image-preview
                 )
 
@@ -123,7 +90,8 @@ block main
                 min="1"
                 placeholder="Tự động tăng"
                 class="form-control"
-            )
+                value=data.position
+            ) 
 
         // ===== TRẠNG THÁI =====
         div(class="mb-3")
@@ -136,7 +104,7 @@ block main
                     name="status"
                     value="active"
                     class="form-check-input"
-                    checked
+                    checked=(data.status == "active" ? true : false )
                 )
                 label(
                     for="statusActive"
@@ -150,6 +118,7 @@ block main
                     name="status"
                     value="inactive"
                     class="form-check-input"
+                    checked=(data.status == "inactive" ? true : false )
                 )
                 label(
                     for="statusInactive"
@@ -161,10 +130,10 @@ block main
             button(
                 type="submit"
                 class="btn btn-success"
-            ) Thêm mới
+            ) Cập nhật
 
             a(
-                href=`${prefixAdmin}/products`
+                href=`${prefixAdmin}/products-category`
                 class="btn btn-secondary ms-2"
             ) Hủy
 

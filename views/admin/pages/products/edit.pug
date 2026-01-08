@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
 
 
 block main
@@ -25,6 +26,18 @@ block main
                 value=product.title
                 required
             )
+        // ===== DANH MỤC CHA =====
+        div(class="mb-3")
+            label(class="form-label" for="parent_category_id") Danh mục cha
+            select(
+                name="parent_category_id"
+                id="parent_category_id"
+                class="form-control"
+            )
+                option(value="") -- Chọn danh mục cha --
+
+                if(category)
+                    +select-tree(category, 1, product.product_category_id)
 
         // ===== MÔ TẢ =====
         div(class="mb-3")
