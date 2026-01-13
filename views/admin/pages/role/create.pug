@@ -1,0 +1,49 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+    
+    h1(class="mb-4") Thêm mới nhóm quyền
+
+    form(
+        action=`${prefixAdmin}/role/create`
+        method="POST"
+        id="form-create-role"
+    )
+        // ===== TIÊU ĐỀ =====
+        div(class="mb-3")
+            label(class="form-label" for="title") Tiêu đề
+            input(
+                type="text"
+                id="title"
+                name="title"
+                class="form-control"
+                required
+            )
+        
+
+        // ===== MÔ TẢ =====
+        div(class="mb-3")
+            label(class="form-label" for="desc") Mô tả
+            textarea(
+                id="desc"
+                name="description"
+                rows="4"
+                class="form-control"
+            )
+
+        // ===== SUBMIT =====
+        div(class="mt-4")
+            button(
+                type="submit"
+                class="btn btn-success"
+            ) Thêm mới
+
+            a(
+                href=`${prefixAdmin}/role`
+                class="btn btn-secondary ms-2"
+            ) Hủy
+

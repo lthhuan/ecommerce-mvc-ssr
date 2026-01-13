@@ -1,0 +1,86 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .card
+        .card-header
+            strong Cập nhật thông tin cá nhân
+
+        .card-body
+            form(
+                action=`${prefixAdmin}/my-account/edit?_method=PATCH`
+                method="POST"
+                enctype="multipart/form-data"
+            )
+
+                // ===== HỌ TÊN =====
+                .form-group.mb-3
+                    label(for="fullName") Họ và tên *
+                    input.form-control(
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        required
+                        value=user.fullName
+                    )
+
+                // ===== EMAIL =====
+                .form-group.mb-3
+                    label(for="email") Email *
+                    input.form-control(
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value=user.email
+                    )
+
+                // ===== MẬT KHẨU =====
+                .form-group.mb-3
+                    label(for="password") Mật khẩu (để trống nếu không đổi)
+                    input.form-control(
+                        type="password"
+                        id="password"
+                        name="password"
+                    )
+
+                // ===== SỐ ĐIỆN THOẠI =====
+                .form-group.mb-3
+                    label(for="phone") Số điện thoại
+                    input.form-control(
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value=user.phone
+                    )
+
+                // ===== AVATAR =====
+                div(
+                    class="mb-3"
+                    upload-image
+                    )
+                    label(class="form-label" for="thumbnail") Ảnh (URL)
+                    input(
+                        type="file"
+                        id="thumbnail"
+                        name="avatar"
+                        placeholder="https://example.com/image.jpg"
+                        class="form-control-file"
+                        accept="image/*"
+                        upload-image-input
+                    )
+                    img(
+                        class="image-preview"
+                        src=user.avatar
+                        upload-image-preview
+                    )
+
+                // ===== SUBMIT =====
+                .text-right
+                    button.btn.btn-primary(type="submit") Cập nhật
+                    a.btn.btn-secondary.ml-2(
+                        href=`${prefixAdmin}/my-account`
+                    ) Hủy

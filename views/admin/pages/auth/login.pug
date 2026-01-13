@@ -1,0 +1,47 @@
+extends ../../layouts/auth.pug
+include ../../mixins/alert.pug
+
+block main
+    .container.d-flex.align-items-center.justify-content-center(style="min-height:100vh")
+        .row.w-100.justify-content-center
+            .col-md-5.col-lg-4
+                .card.shadow-sm
+                    .card-header.text-center
+                        h4.mb-0 Đăng nhập quản trị
+
+                    .card-body
+                        +alert-success(5000)
+                        +alert-error(5000)
+
+                        form(
+                            action=`${prefixAdmin}/auth/login`
+                            method="POST"
+                        )
+                            // ===== EMAIL =====
+                            .form-group.mb-3
+                                label(for="email") Email
+                                input.form-control(
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="levana@email.com"
+                                    required
+                                )
+
+                            // ===== PASSWORD =====
+                            .form-group.mb-3
+                                label(for="password") Mật khẩu
+                                input.form-control(
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="••••••••"
+                                    required
+                                )
+
+
+                            // ===== SUBMIT =====
+                            button.btn.btn-primary.btn-block(type="submit") Đăng nhập
+
+                    .card-footer.text-center.text-muted
+                        small © Admin Panel

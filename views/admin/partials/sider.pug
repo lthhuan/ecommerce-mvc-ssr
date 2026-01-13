@@ -3,9 +3,24 @@
     ul
       li
         a(href=`${prefixAdmin}/dashboard`) Tổng quan
-      li
-        a(href=`${prefixAdmin}/products`) Sản phẩm
-      li
-        a(href=`${prefixAdmin}/products-category`) Danh mục sản phẩm
-      li
-        a(href=`${prefixAdmin}/trash`) Khôi phục sản phẩm
+      if(role.permissions.includes("products_view"))
+        li
+          a(href=`${prefixAdmin}/products`) Sản phẩm
+      if(role.permissions.includes("products_restore"))
+        li
+          a(href=`${prefixAdmin}/trash/products`) Khôi phục sản phẩm
+      if(role.permissions.includes("products-category_view"))
+        li
+          a(href=`${prefixAdmin}/products-category`) Danh mục sản phẩm
+      if(role.permissions.includes("products-category_restore"))
+        li
+          a(href=`${prefixAdmin}/trash/products-category`) Khôi phục danh mục sản phẩm
+      if(role.permissions.includes("roles_view"))
+        li
+          a(href=`${prefixAdmin}/role`) Nhóm quyền
+      if(role.permissions.includes("permissions_view"))
+        li
+          a(href=`${prefixAdmin}/role/permissions`) Thiết lập phân quyền
+      if(role.permissions.includes("accounts_view"))
+        li
+          a(href=`${prefixAdmin}/account`) Danh sách tài khoản

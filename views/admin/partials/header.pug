@@ -1,7 +1,15 @@
 header.header
   .container-fluid
-    .d-flex.align-items-center.justify-content-between
+    .d-flex.align-items-center
       .inner-logo
         a(href="/admin/dashboard") ADMIN
-      .header-right
-        span Xin chào Admin
+
+      div.ml-auto
+        a(
+          href=`${prefixAdmin}/my-account`
+          class='btn btn-primary btn-sm mr-2'
+        ) #{user.fullName}
+
+        a.btn.btn-sm.btn-outline-danger(
+          href='/admin/auth/logout'
+        ) Đăng xuất

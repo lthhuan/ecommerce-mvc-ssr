@@ -1,47 +1,41 @@
-const buttonRestore = document.querySelectorAll("[button-restore]")
-// console.log(buttonRestore)
-if (buttonRestore.length > 0) {
-    const formRestore = document.querySelector("#form-restore-item")
-    const path = formRestore.getAttribute("data-path")
-    buttonRestore.forEach(button => {
+// ================== RESTORE ==================
+const buttonsRestore = document.querySelectorAll("[button-restore]");
 
-        button.addEventListener("click", () => {
-            const isConfirm = confirm("Bạn có chắc khôi phục sản phẩm này không?")
-            if (isConfirm) {
-                const id = button.getAttribute("data-id")
-                const action = path + `/${id}?_method=PATCH`
-                formRestore.action = action
-                formRestore.submit()
+if (buttonsRestore.length > 0) {
+  const formRestore = document.querySelector("#form-restore-item");
+  const path = formRestore.dataset.path;
 
-            }
+  buttonsRestore.forEach(button => {
+    button.addEventListener("click", () => {
+      const confirmText =
+        button.dataset.confirm || "Bạn có chắc muốn khôi phục mục này không?";
+      if (!confirm(confirmText)) return;
 
-        })
+      const id = button.dataset.id;
 
-
-
-
-    })
+      formRestore.action = `${path}/${id}?_method=PATCH`;
+      formRestore.submit();
+    });
+  });
 }
 
-const buttonDeleteHard = document.querySelectorAll("[button-delete-hard]")
+// ================== DELETE HARD ==================
+const buttonsDeleteHard = document.querySelectorAll("[button-delete-hard]");
 
-if (buttonDeleteHard.length > 0) {
-    const formDeleteHard = document.querySelector("#form-delete-hard-item")
+if (buttonsDeleteHard.length > 0) {
+  const formDeleteHard = document.querySelector("#form-delete-hard-item");
+  const path = formDeleteHard.dataset.path;
 
-    const path = formDeleteHard.getAttribute("data-path")
+  buttonsDeleteHard.forEach(button => {
+    button.addEventListener("click", () => {
+      const confirmText =
+        button.dataset.confirm || "Bạn có chắc muốn xóa vĩnh viễn mục này không?";
+      if (!confirm(confirmText)) return;
 
-    buttonDeleteHard.forEach(button => {
-        button.addEventListener("click", () => {
-            const isConfirm = confirm("Bạn có chắc khôi phục sản phẩm này không?")
-            if (isConfirm) {
-                const id = button.getAttribute("data-id")
-                const action = path + `/${id}/?_method=DELETE`
-                formDeleteHard.action = action
-                formDeleteHard.submit()
-            }
+      const id = button.dataset.id;
 
-
-
-        })
-    })
+      formDeleteHard.action = `${path}/${id}?_method=DELETE`;
+      formDeleteHard.submit();
+    });
+  });
 }

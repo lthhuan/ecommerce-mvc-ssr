@@ -1,0 +1,108 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .container-fluid
+        // ===== PAGE HEADER =====
+        .d-flex.justify-content-between.align-items-center.mb-3
+            h1.mb-0 Danh sách tài khoản
+            a.btn.btn-success(
+                href=`${prefixAdmin}/account/create`
+            ) + Thêm mới tài khoản
+
+        // ===== FILTER & SEARCH =====
+        .card.mb-3
+            .card-header
+                strong Bộ lọc & Tìm kiếm
+
+            .card-body
+                .row.align-items-center
+                    .col-md-6
+                        +filter-status(filterStatus)
+
+                    .col-md-6
+                        +search(keyword)
+
+        // ===== TABLE LIST =====
+        .card
+            .card-header
+                strong Danh sách tài khoản
+
+            .card-body.p-0
+                table.table.table-hover.table-bordered.table-sm.mb-0
+                    thead.table-light
+                        tr.text-center
+                            th(style="width:60px") STT
+                            th(style="width:160px") Họ và tên
+                            th(style="width:140px") Phân quyền
+                            th(style="width:200px") Email
+                            th(style="width:140px") Trạng thái
+                            th(style="width:180px") Hành động
+
+                    tbody
+                        each item, index in records
+                            tr
+
+                                td.text-center #{index + 1}
+
+                                td #{item.fullName}
+
+                                td.text-center
+                                    if item.role_id
+                                        span.badge.badge-info #{item.role_id.title}
+                                    else
+                                        span.badge.badge-secondary Không xác định
+
+                                td #{item.email}
+
+                                td.text-center
+                                    if item.status == "active"
+                                        a.badge.bg-success(
+                                            href="javascript:;"
+                                            button-change-status
+                                            data-id=item._id
+                                            data-status="active"
+                                        ) Hoạt động
+                                    else
+                                        a.badge.bg-danger(
+                                            href="javascript:;"
+                                            button-change-status
+                                            data-id=item._id
+                                            data-status="inactive"
+                                        ) Dừng hoạt động
+
+                                td.text-center
+                                    a.btn.btn-secondary.btn-sm.me-1(
+                                        href=`${prefixAdmin}/account/detail/${item._id}`
+                                    ) Chi tiết
+
+                                    a.btn.btn-warning.btn-sm.me-1(
+                                        href=`${prefixAdmin}/account/edit/${item._id}`
+                                    ) Sửa
+
+                                    button.btn.btn-danger.btn-sm(
+                                        type="button"
+                                        button-delete
+                                        data-id=item._id
+                                    ) Xóa
+
+        // ===== PAGINATION =====
+        .mt-3
+            +pagination(pagination)
+
+        // ===== DELETE FORM =====
+        form(
+            action=""
+            method="POST"
+            id="form-delete-item"
+            data-path=`${prefixAdmin}/account/delete`
+        )
+
+    script(src="/admin/js/account.js")
